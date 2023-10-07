@@ -6,3 +6,5 @@ Get-ChildItem $env:APPDATA\Microsoft\Windows\Recent\CustomDestinations\* -File -
 Remove-Item -Force -ErrorAction SilentlyContinue
 Get-ChildItem $env:APPDATA\Microsoft\Office\Recent\* -File -Force -Exclude desktop.ini |
 Remove-Item -Force -ErrorAction SilentlyContinue
+
+Read-Host -Prompt "Premi Invio per uscire."

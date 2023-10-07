@@ -17,3 +17,5 @@
 
 $a = Get-Folder
 dir $a | unblock-file -confirm
+
+Read-Host -Prompt "Premi Invio per uscire."
