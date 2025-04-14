@@ -1,21 +1,24 @@
-﻿Function Get-Folder($initialDirectory="")
+﻿Function Get-Folder( $initialDirectory = "" )
 
 {
-    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null
+    [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
 
-    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
-    $foldername.Description = "Seleziona una cartella"
-    $foldername.rootfolder = "MyComputer"
-    $foldername.SelectedPath = $initialDirectory
+    $folderName                 = New-Object System.Windows.Forms.FolderBrowserDialog
+    $folderName.Description     = "Seleziona una cartella"
+    $folderName.rootFolder      = "MyComputer"
+    $folderName.SelectedPath    = $initialDirectory
 
-    if($foldername.ShowDialog() -eq "OK")
+    If ( $foldername.ShowDialog() -eq "OK" )
     {
-        $folder += $foldername.SelectedPath
+        $folder += $folderName.SelectedPath
     }
-    return $folder
+    Return $folder
 }
 
 $a = Get-Folder
-dir $a | unblock-file -confirm
+Get-ChildItem $a -Recurse | Unblock-File
+
+# Or
+# dir /s $a | unblock-file -confirm
 
 Read-Host -Prompt "Premi Invio per uscire."
