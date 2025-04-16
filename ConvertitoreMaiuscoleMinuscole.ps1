@@ -47,7 +47,7 @@ $TextBox1.Multiline = $True;
 $TextBox1.Font = $Font
 $TextBox1.Location = New-Object System.Drawing.Size(10,10)           # Da sinistra, dall'alto
 $TextBox1.Size = New-Object System.Drawing.Size(610,100)             # Larghezza, Altezza
-$TextBox1.Scrollbars = "Both"                                        # Valori possibili: Vertical, Horizontal, Both
+$TextBox1.ScrollBars = "Both"                                        # Valori possibili: Vertical, Horizontal, Both
 $TextBox1.Add_TextChanged({
 
     $Testo1 = $TextBox1.Text.Trim()
@@ -76,7 +76,7 @@ $TextBox2.Multiline = $True;
 $TextBox2.Font = $Font
 $TextBox2.Location = New-Object System.Drawing.Size(10,120)          # Da sinistra, dall'alto
 $TextBox2.Size = New-Object System.Drawing.Size(610,100)             # Larghezza, Altezza
-$TextBox2.Scrollbars = "Both"                                        # Valori possibili: Vertical, Horizontal, Both
+$TextBox2.ScrollBars = "Both"                                        # Valori possibili: Vertical, Horizontal, Both
 $mainForm.Controls.Add($TextBox2)
 
 # Bottone Copia 
@@ -108,4 +108,4 @@ $BottoneEsci.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
 $mainForm.Controls.Add($BottoneEsci)
 
 $mainForm.Add_Shown({$TextBox1.Select()})
-$result = $mainForm.ShowDialog()
+$mainForm.ShowDialog()

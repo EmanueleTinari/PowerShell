@@ -3,8 +3,8 @@ $done = $False
 
 Do {
     # Richiede di cancellare tutti i file presenti nella cartella TEMP per l'utente corrente.
-    $risposta = $( Write-Host "`nQuesta procedura cancellerà tutti i file nella`ncartella temporanea per l'utente corrente." -NoNewLine ) +
-                $( Write-Host "`n`nProseguo? [S/N/E(sci)]" -ForegroundColor Yellow -NoNewLine; Read-Host )
+    $risposta = $( Write-Host "`n" "Questa procedura cancellerà tutti i file nella" "`n" "cartella temporanea per l'utente corrente." -NoNewLine ) +
+                $( Write-Host "`n" "`n" "Proseguo? [S/N/E(sci)]" -ForegroundColor Yellow -NoNewLine; Read-Host )
     
     # L'utente risponde Si.
     If ( $risposta -eq 's' ) {
@@ -18,14 +18,14 @@ Do {
     # L'utente risponde No.
     ElseIf ( $risposta -eq 'n' ) {
         Clear-Host
-        Write-Host "Cancellato.`n"
+        Write-Host "Cancellato." "`n"
         $done = $True
     }
 
     # L'utente risponde Esci.
     ElseIf ( $risposta -eq 'e' ) {
         Clear-Host
-        Write-Host "Esci.`n"
+        Write-Host "Esci." "`n"
         $done = $True
         # Esce dallo script.
         Exit
@@ -44,8 +44,8 @@ $done = $False
 
 Do {
     # Richiede di cancellare tutti i file presenti nella cartella TEMP di sistema.
-    $risposta = $( Write-Host "Questa procedura cancellerà tutti i file`nnella cartella temporanea di sistema." -NoNewLine ) +
-                $(Write-Host "`n`nProseguo? [S/N/E(sci)]" -ForegroundColor Yellow -NoNewLine; Read-Host )
+    $risposta = $( Write-Host "Questa procedura cancellerà tutti i file" "`n" "nella cartella temporanea di sistema." -NoNewLine ) +
+                $(Write-Host "`n" "`n" "Proseguo? [S/N/E(sci)]" -ForegroundColor Yellow -NoNewLine; Read-Host )
     
     # L'utente risponde Si.
     If ( $risposta -eq 's' ) {
@@ -59,14 +59,14 @@ Do {
     # L'utente risponde No.
     ElseIf ($risposta -eq 'n') {
         Clear-Host
-        Write-Host "Cancellato.`n"
+        Write-Host "Cancellato." "`n"
         $done = $true
     }
 
     # L'utente risponde Esci.
     ElseIf ($risposta -eq 'e') {
         Clear-Host
-        Write-Host "Esci.`n"
+        Write-Host "Esci." "`n"
         $done = $true
         # Esce dallo script.
         Exit
