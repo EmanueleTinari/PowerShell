@@ -4,4 +4,4 @@ Repository per alcuni Script in PowerShell di varie utilità
 
 (ENG: Some useful script for PowerShell.)
 
-# $$\textcolor{Purple}{\text{Nel Repo PowerShell:}}$$ ###
+# $$\textcolor{Red}{\text{Nel Repo PowerShell:}}$$ ###
