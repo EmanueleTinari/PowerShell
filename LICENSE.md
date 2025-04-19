@@ -22,10 +22,3 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <https://unlicense.org>
-<br>
-<br>
-<br>
-<br>
-***
-> <p align="right"> $\color{red}\huge {\textsf {©Emanuele Tinari}}$ </p>
-***
