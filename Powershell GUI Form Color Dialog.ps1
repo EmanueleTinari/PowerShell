@@ -1,6 +1,6 @@
 ﻿Add-Type -AssemblyName System.Windows.Forms
 
-function PickColor {
+Function PickColor {
     $colorDialog = new-object System.Windows.Forms.ColorDialog 
     $colorDialog.AllowFullOpen = $true
     $colorDialog.ShowDialog()

@@ -1,9 +1,4 @@
-$Titolo =   "Questo è il titolo"
-$Testo  =   "Questo è il testo"
-
-Show-Notification -ToastTitle "$Titolo" -ToastText "$Testo"
-
-function Show-Notification {
+Function Show-Notification {
     [cmdletbinding()]
     Param (
         [string]
@@ -31,3 +26,8 @@ function Show-Notification {
     $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("PowerShell")
     $Notifier.Show($Toast);
 }
+
+$Titolo =   "Questo è il titolo"
+$Testo  =   "Questo è il testo"
+
+Show-Notification -ToastTitle "$Titolo" -ToastText "$Testo"
