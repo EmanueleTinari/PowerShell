@@ -1,4 +1,40 @@
-Function ModelloXFunzione_Inserire_qui_il_nome {
+Function ModelloFunzione_Inserire_qui_il_nome {
+
+	<#PSScriptInfo
+
+		.Version 1.0.0.0
+
+		.GUID e1bc1683-62a3-4eab-8139-6d8fe9835727
+
+		.Description Script to create folders from a list in text file.
+
+		.Author Emanuele Tinari
+
+		.CompanyName None
+
+		.Copyright Emanuele Tinari
+
+		.Tags PowerShell, Utilities
+
+		.LicenseURI https://github.com/EmanueleTinari/PowerShell/blob/main/LICENSE.md
+
+		.ProjectURI https://github.com/EmanueleTinari/PowerShell/blob/main/CreateFoldersFromList.ps1
+
+		.IconURI 
+
+		.ExternalModuleDependencies None
+
+		.RequiredScripts None
+
+		.RequiredModules None
+
+		.ExternalScriptDependencies None
+
+		.ReleaseNotes Initial release.
+
+
+	#>
+
 	<#
 		.SYNOPSIS
 			[ITA] .
@@ -27,6 +63,7 @@ Function ModelloXFunzione_Inserire_qui_il_nome {
 
 		.OUTPUTS
 			.
+
 	#>
 
 	Param
@@ -38,131 +75,10 @@ Function ModelloXFunzione_Inserire_qui_il_nome {
 
 
 
+
 						#############
 						# Functions #
 						#############
-
-Function ExtractUISysLang {
-	<#
-		.SYNOPSIS
-			[ITA] Restituisce la sigla della lingua d'interfaccia di sistema.
-			[ENG] Returns the system UI language, in format xx-XX.
-
-		.DESCRIPTION
-			[ITA] Questa funzione restituisce la sigla della lingua attuale dell'interfaccia del sistema, nel formato xx-XX.
-			[ENG] This function returns the actual system UI language, a.k.a. Windows display language, in format xx-XX.
-
-		.EXAMPLE
-			$UILang = ExtractUISysLang
-	#>
-
-	Return ((Get-UICulture).Name)
-}
-
-
-
-
-
-Function ExtractUISysLangLCID {
-	<#
-		.SYNOPSIS
-			[ITA] Restituisce il LCID della lingua d'interfaccia di sistema.
-			[ENG] Returns the system UI language LCID.
-
-		.DESCRIPTION
-			[ITA] Questa funzione restituisce il codice numerico LCID della lingua attuale dell'interfaccia del sistema.
-			[ENG] This function returns the actual UI system language as LCID code.
-
-		.EXAMPLE
-			$UILangLCID =  ExtractUISysLangLCID
-	#>
-
-	Return ((Get-UICulture).LCID)
-}
-
-
-
-
-
-Function ExtractSysLang {
-	<#
-		.SYNOPSIS
-			[ITA] Restituisce la sigla delle impostazioni di cultura correnti impostate nel sistema operativo.
-			[ENG] Returns the current culture set in the operating system, in format xx-XX.
-
-		.DESCRIPTION
-			[ITA] Questa funzione restituisce la sigla delle impostazioni di cultura correnti impostate nel sistema operativo (comprese le formattazioni di valuta ed ora), nel formato xx-XX.
-			[ENG] This function returns the actual system language, a.k.a Regional format (locale), in format xx-XX.
-
-		.EXAMPLE
-			$sysLang = ExtractSysLang
-	#>
-
-	Return ((Get-Culture).Name)
-}
-
-
-
-
-
-Function ExtractSysLangLCID {
-	<#
-		.SYNOPSIS
-			[ITA] Restituisce il LCID delle impostazioni di cultura correnti impostate nel sistema operativo.
-			[ENG] Returns the current culture LCID set in the operating system.
-
-		.DESCRIPTION
-			[ITA] Questa funzione restituisce il codice numerico LCID delle impostazioni di cultura correnti impostate nel sistema operativo (comprese le formattazioni di valuta ed ora).
-			[ENG] This function returns the actual system language, a.k.a Regional format (locale) as LCID code.
-
-		.EXAMPLE
-			$sysLangLCID = ExtractSysLangLCID
-	#>
-
-	Return ((Get-Culture).LCID)
-}
-
-
-
-
-
-Function ExtractSysLoc {
-	<#
-		.SYNOPSIS
-			[ITA] Restituisce la sigla delle impostazioni locali correnti impostate nel sistema operativo.
-			[ENG] Returns the System-locale setting for the current computer, in format xx-XX.
-
-		.DESCRIPTION
-			[ITA] Questa funzione restituisce la sigla, nel formato xx-XX, delle impostazioni per il computer corrente.
-			[ENG] This function returns the name of the System-locale setting for the current computer, in format xx-XX.
-
-		.EXAMPLE
-			$sysLoc = ExtractSysLoc
-	#>
-
-	Return ((Get-WinSystemLocale).Name)
-}
-
-
-
-
-
-Function ExtractSysLocLCID {
-	<#
-		.SYNOPSIS
-			[ITA] Restituisce il LCID delle impostazioni locali correnti impostate nel sistema operativo.
-			[ENG] Returns the System-locale setting LCID for the current computer.
-
-		.DESCRIPTION
-			[ITA] Questa funzione restituisce il codice numerico LCID delle impostazioni locali correnti impostate nel sistema operativo.
-			[ENG] This function returns the actual System-locale setting for the current computer as LCID code.
-
-		.EXAMPLE
-			$sysLocLCID = ExtractSysLocLCID
-	#>
-
-	Return ((Get-WinSystemLocale).LCID)
-}
 
 
 
@@ -185,12 +101,261 @@ Function Get-OperationDate {
 			Write-Host $myDate = (Get-OperationDate)
 	#>
 
-	$DataLoc = Get-Date -Format "dd-MM-yyyy HH:mm:ss.ffff"
-	$DataUtc = (Get-Date).ToUniversalTime().ToString("dd-MM-yyyy HH:mm:ss.ffff UTC")
-	$DiffOre = Get-Date -UFormat "%Z"
-	# [ITA] La Function restituisce, formattata, una stringa contenente i valori delle tre variabili precedenti.
-	# [ENG] Function return a formatted string with 3 variables values.
-	Return ( "{[" + $DataLoc + "](" + $DiffOre + ")[" + $DataUtc + "]} -> " )
+	Try {
+		# [ITA] Nella variabile viene inserita data ed ora del momento in cui viene eseguita la funzione, nel formato: Giorno a 2 cifre, trattino, Mese a 2 cifre, trattino, Anno a 4 cifre, spazio, Ora a 2 cifre, trattino, Minuti a 2 cifre, trattino, Secondi a 2 cifre, punto, Millisecondi a 4 cifre
+		# [ENG] In var is inserted date at the moment of script runs, in the format specified.
+		$DataLoc = Get-Date -Format "dd-MM-yyyy HH:mm:ss.ffff"
+		# [ITA] Nella variabile è inserita la differenza in ore tra il tempo locale e l'UTC.
+		# [ENG] In var is inserted the difference from Local time and UTC.
+		$DiffOre = Get-Date -UFormat "%Z"
+		# [ITA] Nella variabile viene inserita data ed ora nel tempo UTC del momento in cui viene eseguita la funzione, nel formato: Giorno a 2 cifre, trattino, Mese a 2 cifre, trattino, Anno a 4 cifre, spazio, Ora a 2 cifre, trattino, Minuti a 2 cifre, trattino, Secondi a 2 cifre, punto, Millisecondi a 4 cifre e la sigla UTC.
+		# [ENG] In var is inserted UTC date at the moment of script runs, in the format specified.
+		$DataUtc = (Get-Date).ToUniversalTime().ToString("dd-MM-yyyy HH:mm:ss.ffff UTC")
+		# [ITA] La Function restituisce, formattata, una stringa contenente i valori delle tre variabili precedenti.
+		# [ENG] Function return a formatted string with 3 variables values.
+		Return ( "{[" + $DataLoc + "](" + $DiffOre + ")[" + $DataUtc + "]} -> " )
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-OperationDate'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+Function Get-PowerShellVersion {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce la versione di PowerShell.
+			[ENG] Returns PowerShell version.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce la versione di PowerShell nel sistema in uso.
+			[ENG] This function returns PowerShell version.
+
+		.EXAMPLE
+			If (Get-PowerShellVersion -ge 7)
+				{
+					# do something
+				}
+			Else
+				{
+					# do other thing
+				}
+	#>
+
+	Try {
+		Return ($PSVersionTable.PSVersion.Major)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-PowerShellVersion'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+Function Get-UISysLang {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce la sigla della lingua d'interfaccia di sistema.
+			[ENG] Returns the system UI language, in format xx-XX.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce la sigla della lingua attuale dell'interfaccia del sistema, nel formato xx-XX.
+			[ENG] This function returns the actual system UI language, a.k.a. Windows display language, in format xx-XX.
+
+		.EXAMPLE
+			$UILang = Get-UISysLang
+	#>
+
+	Try {
+		Return ((Get-UICulture).Name)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-UISysLang'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+
+Function Get-UISysLangLCID {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce il LCID della lingua d'interfaccia di sistema.
+			[ENG] Returns the system UI language LCID.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce il codice numerico LCID della lingua attuale dell'interfaccia del sistema.
+			[ENG] This function returns the actual UI system language as LCID code.
+
+		.EXAMPLE
+			$UILangLCID =  Get-UISysLangLCID
+	#>
+
+	Try {
+		Return ((Get-UICulture).LCID)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-UISysLangLCID'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+Function Get-SysLang {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce la sigla delle impostazioni di cultura correnti impostate nel sistema operativo.
+			[ENG] Returns the current culture set in the operating system, in format xx-XX.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce la sigla delle impostazioni di cultura correnti impostate nel sistema operativo (comprese le formattazioni di valuta ed ora), nel formato xx-XX.
+			[ENG] This function returns the actual system language, a.k.a Regional format (locale), in format xx-XX.
+
+		.EXAMPLE
+			$sysLang = Get-SysLang
+	#>
+
+	Try {
+		Return ((Get-Culture).Name)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-SysLang'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+Function Get-SysLangLCID {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce il LCID delle impostazioni di cultura correnti impostate nel sistema operativo.
+			[ENG] Returns the current culture LCID set in the operating system.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce il codice numerico LCID delle impostazioni di cultura correnti impostate nel sistema operativo (comprese le formattazioni di valuta ed ora).
+			[ENG] This function returns the actual system language, a.k.a Regional format (locale) as LCID code.
+
+		.EXAMPLE
+			$sysLangLCID = Get-SysLangLCID
+	#>
+
+	Try {
+		Return ((Get-Culture).LCID)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-SysLangLCID'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+Function Get-SysLoc {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce la sigla delle impostazioni locali correnti impostate nel sistema operativo.
+			[ENG] Returns the System-locale setting for the current computer, in format xx-XX.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce la sigla, nel formato xx-XX, delle impostazioni per il computer corrente.
+			[ENG] This function returns the name of the System-locale setting for the current computer, in format xx-XX.
+
+		.EXAMPLE
+			$sysLoc = Get-SysLoc
+	#>
+
+	Try {
+		Return ((Get-WinSystemLocale).Name)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-SysLoc'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
+}
+
+
+
+
+
+Function Get-SysLocLCID {
+	<#
+		.SYNOPSIS
+			[ITA] Restituisce il LCID delle impostazioni locali correnti impostate nel sistema operativo.
+			[ENG] Returns the System-locale setting LCID for the current computer.
+
+		.DESCRIPTION
+			[ITA] Questa funzione restituisce il codice numerico LCID delle impostazioni locali correnti impostate nel sistema operativo.
+			[ENG] This function returns the actual System-locale setting for the current computer as LCID code.
+
+		.EXAMPLE
+			$sysLocLCID = Get-SysLocLCID
+	#>
+
+	Try {
+		Return ((Get-WinSystemLocale).LCID)
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Get-SysLocLCID'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
 }
 
 
@@ -289,62 +454,80 @@ Function Open-ShowFileDialog {
 			[Switch]$ofd_Multiselect = $False										# Default
 		)
 
-	# Load Assembly
-	Add-Type -AssemblyName System.Windows.Forms
-	# Open Class
-	$FileBrowser = New-Object -TypeName System.Windows.Forms.OpenFileDialog
-	# [ITA] Apre una finestra di tipo FileDialog per scegliere un file posizionandosi all'apertura (se non viene passato alcun dato al parametro $ofd_InitialDir) su: Questo PC.
-	# [ENG] Open the FileDialog on This PC (or MyComputer) if no string is passed by $ofd_InitialDir parameter.
-	If (-Not [String]::IsNullOrWhiteSpace($ofd_InitialDir))
-		{
-			$FileBrowser.InitialDirectory = $ofd_InitialDir
-		}
-	# [ITA] Qui viene impostato il filtro dei file, se non viene passata alcuna stringa al parametro $ofd_Filter, sarà Tutti i file.
-	# [ENG] Here you can set Filter. If no string is passed by $ofd_Filter parameter, is set on: All files.
-	$FileBrowser.Filter = $ofd_Filter
-	# [ITA] Qui viene impostato l'indice del filtro selezionato; se non viene passata alcuna valore al parametro $ofd_FilterIndex, sarà 1, il primo nel menù a discesa del filtro.
-	# [ENG] Here you can set Filter index. If no value is passed by $ofd_FilterIndex parameter, is set on: 1 (First in list).
-	$FileBrowser.FilterIndex = $ofd_FilterIndex
-	# [ITA] Controlla che il file scelto esista.
-	# [ENG] Check if file exists.
-	$FileBrowser.CheckFileExists = $True
-	# [ITA] Qui viene impostato se la finestra di dialogo permette o meno la selezione di più file, di default è no (False).
-	# [ENG] Here you can set if you can or not multiselect files, default is not (False).
-	If ($ofd_Multiselect)
-		{
-			$FileBrowser.Multiselect = $True
-		}
-	# [ITA] Qui viene settato il Titolo della finestra di dialogo, il cui valore di default è: Select a file (Seleziona un file).
-	# [ENG] This is for the Title of the form, default value is: Select a file.
-	$FileBrowser.Title = $ofd_Title
-	
+	Try {
+		# Load Assembly
+		Add-Type -AssemblyName System.Windows.Forms
 
-	# Without this line the ShowDialog() function may hang depending on system configuration and running from console vs. ISE.
-#$FileBrowser.ShowHelp = $True
-	
-	# [ITA] Scrive un avviso sulla console di PowerShell per ricordare che la finestra di dialogo di scelta file potrebbe essere nascosta sotto altre finestre.
-	# [ENG] Write a yellow warning on console, remembering new DialogForm may be hidden.
-	Write-Host -ForegroundColor Yellow "* * * W A R N I N G : Dialog form may be hidden behind another window * * *"
-	$FileBrowser.ShowDialog((New-Object System.Windows.Forms.Form -Property @{TopMost=$True; Name=$HelpText})) | Out-Null
-	$FileBrowser.Dispose()
-	# [ITA] La Function restituisce il nome del file scelto nella finestra di dialogo, completo del suo percorso ed estensione.
-	# [ENG] Function return the name, complete with his path and extension, of the file choose with FileDialog.
-	Return $FileBrowser.FileName
+		# Open Class
+		$FileBrowser = New-Object -TypeName System.Windows.Forms.OpenFileDialog
+
+		# [ITA] Apre una finestra di tipo FileDialog per scegliere un file posizionandosi all'apertura (se non viene passato alcun dato al parametro $ofd_InitialDir) su: Questo PC.
+		# [ENG] Open the FileDialog on This PC (or MyComputer) if no string is passed by $ofd_InitialDir parameter.
+		If (-Not [String]::IsNullOrWhiteSpace($ofd_InitialDir))
+			{
+				$FileBrowser.InitialDirectory = $ofd_InitialDir
+			}
+
+		# [ITA] Qui viene impostato il filtro dei file, se non viene passata alcuna stringa al parametro $ofd_Filter, sarà Tutti i file.
+		# [ENG] Here you can set Filter. If no string is passed by $ofd_Filter parameter, is set on: All files.
+		$FileBrowser.Filter = $ofd_Filter
+
+		# [ITA] Qui viene impostato l'indice del filtro selezionato; se non viene passata alcuna valore al parametro $ofd_FilterIndex, sarà 1, il primo nel menù a discesa del filtro.
+		# [ENG] Here you can set Filter index. If no value is passed by $ofd_FilterIndex parameter, is set on: 1 (First in list).
+		$FileBrowser.FilterIndex = $ofd_FilterIndex
+
+		# [ITA] Controlla che il file scelto esista.
+		# [ENG] Check if file exists.
+		$FileBrowser.CheckFileExists = $True
+
+		# [ITA] Qui viene impostato se la finestra di dialogo permette o meno la selezione di più file, di default è no (False).
+		# [ENG] Here you can set if you can or not multiselect files, default is not (False).
+		If ($ofd_Multiselect)
+			{
+				$FileBrowser.Multiselect = $True
+			}
+
+		# [ITA] Qui viene settato il Titolo della finestra di dialogo, il cui valore di default è: Select a file (Seleziona un file).
+		# [ENG] This is for the Title of the form, default value is: Select a file.
+		$FileBrowser.Title = $ofd_Title
+
+		# [ITA] Scrive un avviso sulla console di PowerShell per ricordare che la finestra di dialogo di scelta file potrebbe essere nascosta sotto altre finestre.
+		# [ENG] Write a yellow warning on console, remembering new DialogForm may be hidden.
+		Write-Host -ForegroundColor Yellow "* * * W A R N I N G : Dialog form may be hidden behind another window * * *"
+
+		# [ITA] Apre la finestra di dialogo per la scelta del file.
+		# [ENG] Open file dialog form.
+		$FileBrowser.ShowDialog((New-Object System.Windows.Forms.Form -Property @{TopMost=$True; Name=$HelpText})) | Out-Null
+		$FileBrowser.Dispose()
+
+		# [ITA] La Function restituisce il nome del file scelto nella finestra di dialogo, completo del suo percorso ed estensione.
+		# [ENG] Function return the name, complete with his path and extension, of the file choose with FileDialog.
+		Return $FileBrowser.FileName
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Open-ShowFileDialog'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
 }
 
 
 
 
 
-Function CountLines {			
+Function CountLines {
 	<#
 		.SYNOPSIS
 			[ITA] Conta il numero di linee in un file di testo.
 			[ENG] Count number of lines in a text file.
 
 		.DESCRIPTION
-			[ITA] Questa Funzione conta il numero delle linee in un dato file di testo, completo del suo percorso completo.
-			[ENG] Function to count the number of lines in a text file.
+			[ITA] Questa Funzione conta il numero delle linee in un dato file di testo, completo del suo percorso completo (Primo parametro).
+			[ENG] Function to count the number of lines in a text file (Parameter 0).
 
 		.PARAMETER FilePath
 			0 - [ITA] Obbligatorio. Nome file compreso del suo percorso completo.
@@ -367,12 +550,27 @@ Function CountLines {
 
 	Param
 	(
-		[Parameter(Position=0, Mandatory=$True)] [String] $FilePath
+		[Parameter(
+			Position=0,
+			Mandatory=$True)]
+		[String]$FilePath
 	)
 
-	$NumberOfLines = [System.Linq.Enumerable]::Count([System.IO.File]::ReadLines( $FilePath ))
-	# Function return the number of lines in a given file, passed with his complete path as parameter.
-	Return $NumberOfLines
+	Try {
+		$NumberOfLines = [System.Linq.Enumerable]::Count([System.IO.File]::ReadLines( $FilePath ))
+		# [ITA] La funzione restituisce la quantità di linee presenti in un file passato completo del suo percorso come primo parametro.
+		# [ENG] Function return the number of lines in a given file, passed with his complete path as parameter.
+		Return $NumberOfLines
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function CountLines'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
 }
 
 
@@ -382,12 +580,12 @@ Function CountLines {
 Function ExtractLine {
 	<#
 		.SYNOPSIS
-			[ITA] Estrae da un file di testo una certa linea indicata nel parametro n. 2.
-			[ENG] .
+			[ITA] Estrae da un file di testo la linea indicata.
+			[ENG] Extract from a text file a passed line.
 
 		.DESCRIPTION
-			[ITA] Questa Funzione estrae una specifica linea (indicata da un numero) in un dato file di testo.
-			[ENG] Function to extract the specified line in a text file.
+			[ITA] Questa Funzione estrae una specifica linea (indicata da un numero, passato come secondo parametro) in un dato file di testo (passato come primo parametro, completo del suo percorso completo).
+			[ENG] Function to extract the specified line (parameter 1) in a text file (parameter 0).
 
 		.PARAMETER FilePath
 			0 - [ITA] Obbligatorio. Nome file compreso del suo percorso completo.
@@ -415,13 +613,31 @@ Function ExtractLine {
 
 	Param
 	(
-		[Parameter(Position="0", Mandatory=$True)] [String] $FilePath,
-		[Parameter(Position="1", Mandatory=$True)] [String] $LineNumber
+		[Parameter(
+			Position=0,
+			Mandatory=$True)]
+		[String]$FilePath,
+		[Parameter(
+			Position=1,
+			Mandatory=$True)]
+		[String]$LineNumber
 	)
 
-	$LineContent = [Linq.Enumerable]::ElementAt(([System.IO.File]::ReadLines( $FilePath )), $LineNumber )
-	# Function return the line in a given file, passed with his complete path as parameter, at a indicated line number
-	Return $LineContent
+	Try {
+		$LineContent = [Linq.Enumerable]::ElementAt(([System.IO.File]::ReadLines( $FilePath )), $LineNumber )
+		# [ITA] La funzione restituisce una linea, da un file passato completo del suo percorso come primo parametro, alla linea indicata nel secondo parametro.
+		# [ENG] Function return the line in a given file, passed with his complete path as parameter, at a indicated line number.
+		Return $LineContent
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function ExtractLine'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
 }
 
 
@@ -469,17 +685,30 @@ Function Test-FolderExist {
 
 	Param
 		(
-			[Parameter(Position="0", Mandatory=$True, ValueFromPipeline=$True)] [String] $FolderPath
+			[Parameter(
+				Position=0,
+				Mandatory=$True,
+				ValueFromPipeline=$True)]
+			[String] $FolderPath
 		)
 
-	If ( Test-Path -Path $FolderPath )
-		{
+	Try {
+		If ( Test-Path -Path $FolderPath ) {
 			Return $True
 		}	
-	Else
-		{
+		Else {
 			Return $False
 		}
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Test-FolderExist'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
 }
 
 
@@ -527,36 +756,53 @@ Function Test-FileExist {
 
 	Param
 		(
-			[Parameter(Position="0", Mandatory=$True, ValueFromPipeline=$True)] [String] $FilePath
+			[Parameter(
+				Position=0,
+				Mandatory=$True,
+				ValueFromPipeline=$True)]
+			[String]$FilePath
 		)
 
-	If ( Test-Path -Path $FilePath )
-		{
+	Try {
+		If ( Test-Path -Path $FilePath ) {
 			Return $True
 		}
-	Else
-		{
+		Else {
 			Return $False
 		}
+	# End Try
+	}
+	Catch {
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"Error calling 'Function Test-FileExist'. Message: +
+		$($_.Exception.Message)")
+	# End Catch
+	}
+	# End Finally
+	Finally {}
 }
 
 
 
 
 
-Function PrependToFile { # ATTENZIONE!!! ANCORA DA COMPLETARE !!!
+Function PrependToFile {									# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 	<#
 		.SYNOPSIS
-			[ITA] .
-			[ENG] .
+			[ITA] Inserisce in un file una stringa.
+			[ENG] Insert a string into a file.
 
 		.DESCRIPTION
 			[ITA] Questa funzione inserisce all'inizio di qualsiasi file di testo una stringa composta da una o più righe.
 			[ENG] Function to insert at the beginning of a text file a string with one or more line of text.
 
-		.PARAMETER Path
-			0 - [ITA] .
-			0 - [ENG] .
+		.PARAMETER File
+			0 - [ITA] Obbligatorio. Il file in cui inserire la stringa.
+			0 - [ENG] Mandatory. File where insert string.
+
+		.PARAMETER Content
+			1 - [ITA] Obbligatorio. La stringa di testo da inserire nel file.
+			1 - [ENG] Mandatory. The content as string to insert.
 
 		.EXAMPLE	
 			get-item fileName.ext | PrependTo-File "contentToAdd`r`n"
@@ -572,56 +818,222 @@ Function PrependToFile { # ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 
 	Param
 		(
-			[Parameter(Position=0, ValueFromPipeline=$True, Mandatory=$True, ValueFromPipelineByPropertyName=$True)] [System.IO.FileInfo] $File,
-			[Parameter(Position=1, ValueFromPipeline=$False, Mandatory=$True)] [String] $Content
+			[Parameter(
+				Position=0,
+				ValueFromPipeline=$True,
+				Mandatory=$True,
+				ValueFromPipelineByPropertyName=$True)]
+			[System.IO.FileInfo]$File,
+			[Parameter(
+				Position=1,
+				ValueFromPipeline=$False,
+				Mandatory=$True)]
+			[String]$Content
 		)
 
 	Process
 	{
-		If ( !$File.Exists )
-			{
-				Write-Error "$File does not exist."
-				Return
-			}
+		If ( !$File.Exists ) {
+			$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+			"File: $File does not exist.")
+			Return
+		}
+
 		$FilePath = $File.Fullname
 		$tmpToken = (Get-Location).Path + "\_tmpFile" + $File.Name
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+		"$tmpToken created to as buffer.")
 		Write-Verbose "$tmpToken created to as buffer."
 		$tfs = [System.IO.File]::Create( $tmpToken )
 		$fs = [System.IO.File]::Open( $File.Fullname,[System.IO.FileMode]::Open,[System.IO.FileAccess]::ReadWrite )
 
-		Try
-			{
-				$msg = $Content.ToCharArray()
-				$tfs.Write( $msg, 0, $msg.Length )
-				$fs.Position=0
-				$fs.CopyTo( $tfs )
-			}
+		Try {
+			$msg = $Content.ToCharArray()
+			$tfs.Write( $msg, 0, $msg.Length )
+			$fs.Position=0
+			$fs.CopyTo( $tfs )
+		# End Try
+		}
 
-		Catch
-			{
-				Write-Verbose $_.Exception.Message
-			}
+		Catch {
+			$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+			"Error calling 'Function PrependToFile'. Message: +
+			$($_.Exception.Message)")
+		# End Catch
+		}
 
-		Finally
-			{
-				$tfs.Close()
-				# Close calls dispose and GC.SuppressFinalize internally.
-				$fs.Close()
-				If ( $Error.Count -eq 0 )
-					{
-						Write-Verbose ( "Updating $FilePath" )
-						[System.IO.File]::Delete( $FilePath )
-						[System.IO.File]::Move( $tmpToken, $FilePath )
-					}
-				Else
-					{
-						$Error.Clear()
-						Write-Verbose ( "An error occurred, rolling back. $FilePath not effected" )
-						[System.IO.File]::Delete( $tmpToken )
-					}
+		Finally {
+			$tfs.Close()
+			# Close calls dispose and GC.SuppressFinalize internally.
+			$fs.Close()
+			If ( $Error.Count -eq 0 ) {
+				$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+				"Updating file $FilePath.")
+				Write-Verbose ( "Updating file $FilePath" )
+				[System.IO.File]::Delete( $FilePath )
+				[System.IO.File]::Move( $tmpToken, $FilePath )
 			}
+			Else {
+				$Error.Clear()
+				$__0001_log_list.Insert(0, "" + $(Get-OperationDate) +
+				"An error occurred, rolling back. File $FilePath not effected.")
+				Write-Verbose ( "An error occurred, rolling back. $FilePath not effected." )
+				[System.IO.File]::Delete( $tmpToken )
+			}
+		}
 	}
 }
+
+
+
+
+
+Function Set-ini_File {										# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
+	<#
+		.SYNOPSIS
+			[ITA] Crea un nuovo file ini.
+			[ENG] Create a new ini file.
+
+		.DESCRIPTION
+			[ITA] Crea un nuovo file ini per la cartella passata come parametro.
+			[ENG] Create a new ini file for folder passed as parameter.
+
+		.PARAMETER $ini_Dir
+			0 - [ITA] Obbligatorio. Il percorso completo della cartella dove il file ini verrà creato.
+			0 - [ENG] Mandatory. Complete path of folder where ini file'll be created.
+
+		.PARAMETER $ini_Icon
+			1 - [ITA] Il percorso completo dell'icona che verrà visualizzata sulla cartella.
+			1 - [ENG] Complete path of icon file that'll be visualized on folder.
+
+		.PARAMETER $ini_IconIndex
+			2 - [ITA] L'indice dell'icona che verrà utilizzata in caso di una dll o di un exe, di default è 0.
+			2 - [ENG] The icon index if ico is in dll or exe, 0 as default.
+
+		.PARAMETER $ini_ConfirmFileOp
+			3 - [ITA] .
+			3 - [ENG] .
+
+		.PARAMETER $ini_DropEffect
+			4 - [ITA] .
+			4 - [ENG] .
+
+		.PARAMETER $ini_Tip
+			5 - [ITA] .
+			5 - [ENG] .
+
+		.PARAMETER $ini_FolderType
+			6 - [ITA] .
+			6 - [ENG] .
+
+		.EXAMPLE	
+			
+
+		.EXAMPLE	
+			
+
+		.INPUTS
+			.
+
+		.OUTPUTS
+			.
+
+	#>
+
+	Param
+		(
+			[Parameter(
+				Mandatory = $True,
+				HelpMessage = "Directory to apply ini file. '.\' as default dir path",
+				Position = 0)]
+			[String]$ini_Dir,										# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Icon file + ext, with complete path. '.\'Icon.ico ad default value.",
+				Position = 1)]
+			[String]$ini_Icon = ".\Icon.ico",						# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Icon index. '0' as default.",
+				Position = 2)]
+			[String]$ini_IconIndex	=	"0",						# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Confirm file operation. '0', no warning as default.",
+				Position = 3)]
+			[String]$ini_ConfirmFileOp	=	"0",					# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Default drop effect. 'Copy' as default.",
+				Position = 4)]
+			[String]$ini_DropEffect = "1",							# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Insert a tip for the folder. Empty string as default.",
+				Position = 4)]
+			[String]$ini_Tip = "",									# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Insert the folder type. 'Generic' as default.",
+				Position = 4)]
+			[String]$ini_FolderType = "Generic"						# Default
+
+		)
+
+
+$iniText = '
+		[.ShellClassInfo]
+		IconResource=D:\Remote\icons\folderBlue.ico,0
+		IconIndex =  0
+		ConfirmFileOp = 0
+		DefaultDropEffect = 1
+		[ViewState]
+		Mode=
+		Vid=
+		FolderType=Generic
+		'								### Empty line: Important !!!
+
+Push-Location "$path"					### Push-Location (no Set-Location !!!)
+#List all folder end with _S
+$items = Get-ChildItem -Recurse | 
+Where-Object {
+($_.Attributes -match "Directory") -and ($_.Name.EndsWith("es"))} | 
+Select-Object -ExpandProperty FullName                   ### ↑↑  change!!!
+
+#For each folder _S ...
+foreach ($item in $items)
+{
+Push-Location "$item"      ### Push-Location instead of Set-Location
+
+#Init. Delete desktop.ini if exist
+try {
+Remove-Item desktop.ini -Force -erroraction stop
+}
+catch {                    ### Write-Host "error removing $($item)"
+}
+
+#Write desktop.ini
+Write-Host "Go to $($item)"
+$iniText | Out-File desktop.ini -Force
+Set-ItemProperty desktop.ini -Name Attributes -Value “ReadOnly,System,Hidden”
+Pop-Location               ### Pop-Location for corresponding Push-Location
+attrib.exe +R +S "$item"   ### Follow DESKTOP.INI CUSTOMIZATIONS DO NOT …
+}
+Pop-Location                   ### Pop-Location for corresponding Push-Location
+}
+
+
+# call function declared above
+Set-ini_File -ini_Dir "" -ini_Icon "" -ini_IconIndex "" -ini_ConfirmFileOp "" -ini_DropEffect "" -ini_Tip "" -ini_FolderType ""
+
+
+
 
 
 
@@ -634,8 +1046,10 @@ Function PrependToFile { # ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 						Write-Host $xxxMain
 					# [ITA] .
 					# [ENG] .
+
 					# Modello x COSTANTI:
 					# Set-Variable -Option Constant -Scope Global -Name "" -Description "" -Value ""
+
 					# Modello x VARIABILI:
 					# Set-Variable -Scope Global -Name "__00XX_" -Description "" -Value ""
 					# ATTENZIONE: ELIMINARE QUESTO BLOCCO !!!
@@ -644,35 +1058,57 @@ Function PrependToFile { # ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 						# Main #
 						########
 
-Remove-Variable * -ErrorAction SilentlyContinue -Scope Global -Force; Remove-Module *; $Error.Clear();
 # [ITA] Vengono di seguito impostate alcune operazioni che eseguirà inizialmente lo script.
 # [ENG] Here are setting some starting operation of the script.
-$PSDefaultParameterValues['Out-File:Width'] = 2000
+Remove-Variable -Include * -Name * -ErrorAction SilentlyContinue -Scope Global -Force
+	# Lista delle variabili usate:
+	#Remove-Variable -Name $__0001_log_list -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0004_L11 -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0005_L12 -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0006_L21 -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0007_L22 -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0008_L31 -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0009_L32 -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0000tmpVar -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $__0015_LineContent -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $ -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $ -ErrorAction SilentlyContinue -Scope Global -Force
+	#Remove-Variable -Name $ -ErrorAction SilentlyContinue -Scope Global -Force
+
+$Error.Clear()
+$PSDefaultParameterValues=@{"Out-File:Width"="10000"}
 
 # [ITA] Viene creata una nuova lista (tipo di Array) per contenere una serie di stringhe di log; Insert(0,"") pone la stringa per prima nella lista già creata.
 # [ENG] Create a new list that will contains all log's strings; using Insert(0,""), set new one as first element: position 0.
-Set-Variable -Scope Global -Name "__0001_log_list" -Description "" -Value (New-Object 'System.Collections.Generic.List[String]')
+Set-Variable -Scope Global -Name "__0001_log_list" -Description "Here are stored script's messages." -Value (New-Object 'System.Collections.Generic.List[String]')
 
-# [ITA] Svuota la console.
-# [ENG] Clear the console.
-Clear-Host
-
+# [ITA] Svuota la console usando il comando a seconda della versione di PowerShell in uso.
+# [ENG] Clear the console, the used command depending of the version of PS in use.
+If (Get-PowerShellVersion -ge 7)
+	{
+		[Console]::Clear()
+	}
+Else
+	{
+		Clear-Host
+	}
 
 # [ITA] Imposta nelle due costanti seguenti i valori per la lingua italiana.
 # [ENG] Set in next 2 constants the italian values.
-					# ATTENZIONE: CAMBIARE DOPO LE PROVE ED ELIMINARE QUESTA RIGA DI COMMENTO!!!
-Set-Variable -Option Constant -Scope Global -Name "__0002_ItaLang" -Value "en-EN" -Description "Here is stored the string for Italian"
+					# ATTENZIONE!!! DOPO LE PROVE ELIMINARE QUESTE 3 RIGHE E DE-COMMENTARE LA RIGA SEGUENTE!!!
+					Set-Variable -Option Constant -Scope Global -Name "__0002_ItaLang" -Value "en-EN" -Description "Here is stored the string for Italian"
+					# ATTENZIONE!!! DOPO LE PROVE ELIMINARE QUESTE 3 RIGHE E DE-COMMENTARE LA RIGA SEGUENTE!!!
+					#Set-Variable -Option Constant -Scope Global -Name "__0002_ItaLang" -Value "it-IT" -Description "Here is stored the string for Italian"
 Set-Variable -Option Constant -Scope Global -Name "__0003_ItaLCID" -Value "1040" -Description "Here is stored the LCID for Italian"
-
 
 # [ITA] Imposta nelle sei variabili seguenti i valori estratti dal sistema.
 # [ENG] Set in next 6 variables the values extract from the system.
-Set-Variable -Scope Global -Name "__0004_L11" -Description "Here is stored the string for Italian" -Value (ExtractUISysLang)
-Set-Variable -Scope Global -Name "__0005_L12" -Description "Here is stored the string for Italian" -Value (ExtractUISysLangLCID)
-Set-Variable -Scope Global -Name "__0006_L21" -Description "Here is stored the string for Italian" -Value (ExtractSysLang)
-Set-Variable -Scope Global -Name "__0007_L22" -Description "Here is stored the string for Italian" -Value (ExtractSysLangLCID)
-Set-Variable -Scope Global -Name "__0008_L31" -Description "Here is stored the string for Italian" -Value (ExtractSysLoc)
-Set-Variable -Scope Global -Name "__0009_L32" -Description "Here is stored the string for Italian" -Value (ExtractSysLocLCID)
+Set-Variable -Scope Global -Name "__0004_L11" -Description "Here is stored the string for Italian" -Value (Get-UISysLang)
+Set-Variable -Scope Global -Name "__0005_L12" -Description "Here is stored the string for Italian" -Value (Get-UISysLangLCID)
+Set-Variable -Scope Global -Name "__0006_L21" -Description "Here is stored the string for Italian" -Value (Get-SysLang)
+Set-Variable -Scope Global -Name "__0007_L22" -Description "Here is stored the string for Italian" -Value (Get-SysLangLCID)
+Set-Variable -Scope Global -Name "__0008_L31" -Description "Here is stored the string for Italian" -Value (Get-SysLoc)
+Set-Variable -Scope Global -Name "__0009_L32" -Description "Here is stored the string for Italian" -Value (Get-SysLocLCID)
 
 # [ITA] Col successivo If viene impostato il linguaggio dello script.
 # [ENG] If statement to compare values in the system to set the language of the script.
@@ -681,14 +1117,26 @@ If ( $__0004_L11 -eq $__0002_ItaLang -And $__0006_L21 -eq $__0002_ItaLang -And $
 		If ( $__0005_L12 -eq $__0003_ItaLCID -And $__0007_L22 -eq $__0003_ItaLCID -And $__0009_L32 -eq $__0003_ItaLCID )
 			{
 				# Italiano
+				# [ITA] La lingua in uso nello script viene registrata nella lista di log.
+				# [ENG] Script's language is registered in log_list.
+				$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + "Imposto la lingua dello script su: Italiano")
+
+				# ATTENZIONE!!! ALLA FINE ELIMINARE LA RIGA SEGUENTE!!!
 				Write-Host "Imposto la lingua dello script su: Italiano"
+
 				Set-Variable -Option Constant -Scope Global -Name "__0010_ScriptLan" -Description "Here is stored the value found for Italian" -Value "IT"
 			}
 	}
 Else
 	{
 		# English
-		Write-Host "Set script language on: English"
+		# [ITA] La lingua in uso nello script viene registrata nella lista di log.
+		# [ENG] Script's language is registered in log_list.
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + "Set script language on: English") 
+
+				# ATTENZIONE!!! ALLA FINE ELIMINARE LA RIGA SEGUENTE!!!
+				Write-Host "Set script language on: English"
+
 		Set-Variable -Option Constant -Scope Global -Name "__0010_ScriptLanguage" -Description "Here is stored the value found for English" -Value "EN"
 	}
 
@@ -738,7 +1186,7 @@ Set-Variable -Option Constant -Scope Global -Name "__0012_ChosenFile" -Descripti
 
 # [ITA] La variabile temporanea $__0000tmpVar viene azzerata.
 # [ENG] Empty temp Var $__0000tmpVar.
-Clear-Variable $__0000tmpVar
+Clear-Variable -name __0000tmpVar
 
 # [ITA] Il nome del file completo di estensione e suo percorso viene registrato nella lista di log.
 # [ENG] File name, extension and path is registered in log_list.
@@ -762,7 +1210,7 @@ Set-Variable -Option Constant -Scope Global -Name "__0014_fileName" -Description
 
 # [ITA] Il nome del file + estensione vengono registrati nella lista di log.
 # [ENG] File name and extension are registered in log_list.
-$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + $__0014_fileName + " <-- File name") 
+$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + $__0014_fileName + " <-- File name + .ext") 
 
 # [ITA] Imposta nella costante seguente il solo nome del file.
 # [ENG] Set in next constant only the name of the file.
@@ -780,45 +1228,74 @@ Set-Variable -Option Constant -Scope Global -Name "__0016_fileExtension" -Descri
 # [ENG] File extension without dot is registered in log_list.
 $__0001_log_list.Insert(0, "" + $(Get-OperationDate) + ($__0016_fileExtension -replace "\.", "") + " <-- File extension") 
 
-# [ITA] Imposta nella costante seguente il numero di righe presenti nel file.
-# [ENG] Set in next constant the number of lines in the file.
+# [ITA] Imposta nella costante seguente il numero di righe presenti nel file usando la Funzione CountLines.
+# [ENG] Set in next constant, using CountLines Function, the number of lines in the file.
 Set-Variable -Option Constant -Scope Global -Name "__0017_NumberOfLines" -Description "Here is stored the number of lines in $__0012_ChosenFile" -Value (CountLines $__0012_ChosenFile)
 
 # [ITA] Il numero di righe presenti nel file viene registrato nella lista di log.
 # [ENG] File's number of lines is registered in log_list.
-$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + $__0017_NumberOfLines + " <-- Number of lines") 
+$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + $__0017_NumberOfLines + " <-- Number of lines (Folders to create)") 
 
-# [ITA] Imposta nella costante seguente il numero di righe presenti nel file.
+# [ITA] Imposta nella costante seguente il valore dell'estensione per i file "ico".
 # [ENG] Set in next constant the value of the extension for icon files.
 Set-Variable -Option Constant -Scope Global -Name "__0018_IconExt" -Description "Here is stored the string for icon ext" -Value "ico"
 
-# [ITA] Imposta nella variabile seguente il numero di righe presenti nel file.
-# [ENG] Set in next variable the value of the extension for icon files.
-Set-Variable -Option Constant -Scope Global -Name "__0018_IconExt" -Description "Here is stored the string for icon ext" -Value "ico"
-
-
-
-
-
+# [ITA] Viene creata una variabile per contenere il valore della linea estratta dal file scelto.
+# [ENG] Var is created to contain string value of line extract from choose file.
+Set-Variable -Scope Global -Name "__0015_LineContent" -Description "Here is stored the line string" -Value ""
 
 # [ITA] Ciclo per tutte le righe del file scelto.
 # [ENG] Loop all lines in choose file.
 For($__0000tmpVar = 0; $__0000tmpVar -lt $__0017_NumberOfLines; $__0000tmpVar++)
 	{
+		# [ITA] Inserisce nella variabile il valore della linea estratta nel ciclo di tutte le linee del file.
+		# [ENG] Line string at line of $__0000tmpVar value is inserted into var.
 		$__0015_LineContent = ExtractLine $__0012_ChosenFile ($__0000tmpVar)
-		Write-Host "Linea " ($__0000tmpVar) ": " ($__0015_LineContent)
+		# [ITA] Il numero di linea in elaborazione e il suo valore viene registrato nella lista di log.
+		# [ENG] Line number and its value is registered in log_list.
+		$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + "Linea estratta n. " + (1 + $__0000tmpVar) + " [$__0000tmpVar] : $__0015_LineContent")
+					# ATTENZIONE!!! ALLA FINE ELIMINARE LA RIGA SEGUENTE!!!
+					Write-Host "Linea estratta n." (1 + $__0000tmpVar) "[$__0000tmpVar] : $__0015_LineContent"
+		# [ITA] Controlla che una cartella col nome estratto non esista già nel percorso indicato.
+		# [ENG] Check if a folder with the name extract exists or not in given path.
+		If (Test-FolderExist ($__0013_filePath + $__0015_LineContent + "\"))
+			{
+				# [ITA] Il nome della cartella già esistente nel percorso viene registrato nella lista di log.
+				# [ENG] Folder name already existent in given path is registered in log_list.
+				$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + "Folder " + $__0013_filePath + $__0015_LineContent + " already exists. Go on with next line.")
+						# ATTENZIONE!!! ALLA FINE ELIMINARE LA RIGA SEGUENTE!!!
+						Write-Host ("La cartella " + $__0013_filePath + $__0015_LineContent + " esiste già! Proseguo con la riga successiva.")
+				# [ITA] La variabile $__0015_LineContent viene azzerata.
+				# [ENG] Empty $__0015_LineContent var.
+				Clear-Variable -name __0015_LineContent
+				# [ITA] Se esiste già, prosegue nel ciclo For col valore della line successiva.
+				# [ENG] If folder exists, go on with next For loop line value.
+				Continue
+			}
+		Else
+			{
+				# [ITA] La nuova cartella viene creata partendo dal percorso del file scelto.
+				# [ENG] New folder is created from chosen file path.
+				New-Item -Path ($__0013_filePath) -Name ($__0015_LineContent) -ItemType "Directory"
+				# [ITA] Il nome della nuova cartella creata viene registrato nella lista di log.
+				# [ENG] New folder name is registered in log_list.
+				$__0001_log_list.Insert(0, "" + $(Get-OperationDate) + "Folder " + $__0013_filePath + $__0015_LineContent + " created!")
+						# ATTENZIONE!!! ALLA FINE ELIMINARE LA RIGA SEGUENTE!!!
+						Write-Host ("La cartella " + $__0013_filePath + $__0015_LineContent + " è stata creata!")
+				# [ITA] La variabile $__0015_LineContent viene azzerata.
+				# [ENG] Empty $__0015_LineContent var.
+				Clear-Variable -name __0015_LineContent
+			}
 	}
 
-# [ITA] La variabile temporanea $__0000tmpVar viene azzerata.
-# [ENG] Empty temp Var $__0000tmpVar.
-Clear-Variable $__0000tmpVar
+		# [ITA] La variabile temporanea $__0000tmpVar viene azzerata.
+		# [ENG] Empty temp Var $__0000tmpVar.
+		Clear-Variable -name __0000tmpVar
+
+Pause
 
 
 
-
-	
-	
-	
 
 
 
@@ -829,9 +1306,11 @@ Clear-Variable $__0000tmpVar
 
 #PERCORSO:
 #D:\Documenti\Downloads\CAD\0
+# [ITA] .
+# [ENG] .
 
 
-Function Set-FileAttribute {
+Function Set-FileAttribute {								# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 <#
 	.SYNOPSIS
 		Sets the attribute of a file
@@ -882,7 +1361,7 @@ Function Set-FileAttribute {
 		
 	if ($Unset) {
 		$Path = (Get-ChildItem $Path -force)
-		$Path.Attributes = $Path.Attributes -bxor ([System.IO.FileAttributes]$Attributes).value__	
+		$Path.Attributes = $Path.Attributes -bXor ([System.IO.FileAttributes]$Attributes).value__	
 	}
 	else {
 		$Path = (Get-ChildItem $Path -force)
@@ -891,66 +1370,169 @@ Function Set-FileAttribute {
 }
 
 
-Function Show-Alert {
-    param([Parameter(Mandatory = $true)] [string] $Message)
-    Add-Type -AssemblyName PresentationFramework
-    $result = [System.Windows.MessageBox]::Show($Message, "Prompt", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning, [System.Windows.MessageBoxResult]::OK, [System.Windows.MessageBoxOptions]::DefaultDesktopOnly)
-    return $result;
-}
-function Show-ConfirmationBox {
-    param(
-        [Parameter(Mandatory = $true)][string] $Message,
-        [Parameter(Mandatory = $true)][string] $Title
-    )
-    return [System.Windows.Forms.MessageBox]::Show($Message, $title, "YesNo", "Information", "Button1");
-}
 
-$A = "Messaggio di prova alert"
-#$B = "Messaggio conferma"
-#$C = "Titolo conferma"
-Show-Alert $A
-#Show-ConfirmationBox $B $C
 
-function Invoke-MsgBox {
+
+Function Invoke-MsgBox {									# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 	<#
-	.SYNOPSIS
-		Display Windows message box
-	.DESCRIPTION
-		Display a Windows message box
-	.PARAMETER Message
-		Text to display in the message box
-	.PARAMETER Title
-		Message box caption / title
-	.PARAMETER ButtonType
-		Ok, OkCancel, YesNo, YesNoCancel. Default is Ok
-	.PARAMETER Icon
-		Error, Exclamation, Information, Question, Warning, None. Default is Information
-	.EXAMPLE
-		$choice = Invoke-MsgBox -Message "Proceed?" -Title "Update Records" -ButtonType YesNo -Icon Question
-	.LINK
-		https://github.com/Skatterbrainz/helium/blob/master/docs/Invoke-MsgBox.md
+		.SYNOPSIS
+			[ITA] .
+			[ENG] Display Windows message box.
+
+		.DESCRIPTION
+			[ITA] .
+			[ENG] Display a Windows message box.
+
+		.PARAMETER Title
+			0 - [ITA] Titolo della MessageBox.
+			0 - [ENG] Message box caption / title.
+
+		.PARAMETER Message
+			1 - [ITA] Testo da mostrare nella MessageBox.
+			1 - [ENG] Text to display in the message box.
+
+		.PARAMETER Buttons
+			1 - [ITA] .
+			1 - [ENG] Ok, OkCancel, YesNo, YesNoCancel. Default is Ok.
+
+		.PARAMETER Icon
+			1 - [ITA] .
+			1 - [ENG] Error, Exclamation, Information, Question, Warning, None. Default is Information.
+
+		.EXAMPLE	
+			$tit = "Confirmation Title"
+			$mess = "Confirmation Msg"
+			Show-ConfirmationBox $tit $mess
+			CONTROLLARE LA RIGA SEGUENTE!!!
+$choice = Invoke-MsgBox -Message "Proceed?" -Title "Update Records" -ButtonType YesNo -Icon Question
+		.EXAMPLE	
+			
+
+		.INPUTS
+			.
+
+		.OUTPUTS
+			.
 	#>
-	[CmdletBinding()]
-	param (
-		[parameter(Mandatory)][string]$Message,
-		[parameter(Mandatory)][string]$Title,
-		[parameter()][string][ValidateSet('Ok','OkCancel','YesNo','YesNoCancel')]$ButtonType = 'Ok',
-		[parameter()][string]
-			[ValidateSet('Asterisk','Error','Exclamation','Hand','Information','Question','Stop','Warning','None')]$Icon = 'Information'
-	)
-	try {
-		if ($PSVersionTable.Platform -eq 'Unix') { throw "Not supported on Linux systems" }
-		Add-Type -AssemblyName PresentationCore, PresentationFramework
-		$result = [System.Windows.MessageBox]::Show($Message, $Title, $ButtonType, $Icon)
-		$result
-	} catch {
-		Write-Error $_.Exception.Message
-	}
+
+	[CmdletBinding(PositionalBinding=$False)]
+
+	Param
+		(
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Title (caption) text for the MessageBox",
+				Position = 0)]
+			[String]$Title = "This is the title of the MessageBox",					# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Message text for the MessageBox",
+				Position = 1)]
+			[String]$Message = "This is the text of the MessageBox.",				# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "Button for the MessageBox",
+				Position = 2)]
+			[ValidateSet(
+				'OK',
+				'OKCancel',
+				'YesNo',
+				'YesNoCancel',
+				'AbortRetryIgnore',
+				'RetryCancel')]
+			[String]$Buttons = 'YesNo',												# Default
+
+			[Parameter(
+				Mandatory = $False,
+				HelpMessage = "MessageBox icon",
+				Position = 3)]
+			[ValidateSet(
+				'Asterisk',
+				'Error',
+				'Exclamation',
+				'Hand',
+				'Information',
+				'Question',
+				'Stop',
+				'Warning',
+				'None')]
+			[String]$Icon = 'Information',											# Default
+
+			[ValidateSet(0, 1, 2)]
+			[Int] $DefaultButtonIndex
+
+		)
+
+	$buttonMap = @{ 
+		'OK'               = @{ buttonList = 'OK'; defaultButtonIndex = 0 }
+		'OKCancel'         = @{ buttonList = 'OK', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+		'AbortRetryIgnore' = @{ buttonList = 'Abort', 'Retry', 'Ignore'; defaultButtonIndex = 2; ; cancelButtonIndex = 0 }; 
+		'YesNoCancel'      = @{ buttonList = 'Yes', 'No', 'Cancel'; defaultButtonIndex = 2; cancelButtonIndex = 2 };
+		'YesNo'            = @{ buttonList = 'Yes', 'No'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+		'RetryCancel'      = @{ buttonList = 'Retry', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+		}
+
+	Try
+		{
+			If ($PSVersionTable.Platform -eq 'Unix')
+				{
+					Throw "Not supported on Linux systems"
+				}
+			If ($IsLinux)
+				{ 
+					Throw "Not supported on Linux." 
+				}
+			If ($IsMacOS)
+				{ 
+					Throw "Not supported on MacOS." 
+				}
+
+			$numButtons = $buttonMap[$Buttons].buttonList.Count
+			$defaultIndex = [math]::Min($numButtons - 1, ($buttonMap[$Buttons].defaultButtonIndex, $DefaultButtonIndex)[$PSBoundParameters.ContainsKey('DefaultButtonIndex')])
+			Add-Type -Assembly System.Windows.Forms        
+			# Show the dialog.
+			# Output the chosen button as a stringified [System.Windows.Forms.DialogResult] enum value
+			[System.Windows.Forms.MessageBox]::Show($Message, $Title, $Buttons, $Icon, $defaultIndex * 256).ToString()
+			#Add-Type -AssemblyName PresentationCore, PresentationFramework
+			#$Result = [System.Windows.MessageBox]::Show($Message, $Title, $ButtonType, $Icon)
+			$Result
+		}
+	Catch
+		{
+			Write-Error $_.Exception.Message
+		}
 }
 
-$choice = Invoke-MsgBox -Message "Proceed?" -Title "Update Records" -ButtonType YesNo -Icon Question
+$choice = Invoke-MsgBox -Title "Titolo: Attenzione!" -Message "Messaggio: Procedo?" -Buttons YesNo -Icon Question -DefaultButtonIndex 2
 Write-Host $choice
 
 
+# ATTENZIONE!!! Controllare la parte successiva
+<#
+Try
+{
+	$computers = Get-Content computers.txt -ErrorAction Stop
+}
+Catch
+{
+	"There was a problem opening the file; message: $($_.Exception.Message)" | Out-File -FilePath 'error.log' -Append
+}
+Finally
+{
+	Write-Host 'Tried to read computers file'
+}
+
+
+$computers = Get-ADComputer -SearchBase (Get-ADOrganizationalUnit -Filter {Name -eq 'Servers'} ) -Filter * | Select-Object -ExpandProperty Name
+Measure-Command {
+	Get-WmiObject Win32_ComputerSystem -ComputerName $computers -ErrorAction ignore
+}
+Measure-Command {
+	Get-CimInstance Win32_ComputerSystem -ComputerName $computers -ErrorAction ignore
+}
+
+#>
 
 
