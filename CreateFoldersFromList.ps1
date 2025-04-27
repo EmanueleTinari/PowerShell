@@ -409,7 +409,7 @@ Function Open-ShowFileDialog {
 			Open-ShowFileDialog -ofd_Title ("This is my title for the OpenDialog")
 
 		.EXAMPLE	
-		Open-ShowFileDialog -ofd_Filter ("Text files (*.txt)|*.txt|All files (*.*)|*.*") -ofd_Title ("This is my title for the OpenDialog")
+			Open-ShowFileDialog -ofd_Filter ("Text files (*.txt)|*.txt|All files (*.*)|*.*") -ofd_Title ("This is my title for the OpenDialog")
 	#>
 
 	[CmdletBinding()]
@@ -611,16 +611,18 @@ Function ExtractLine {
 
 	[CmdletBinding()]
 
-	Param
-	(
+	Param (
+
 		[Parameter(
 			Position=0,
 			Mandatory=$True)]
 		[String]$FilePath,
+
 		[Parameter(
 			Position=1,
 			Mandatory=$True)]
 		[String]$LineNumber
+
 	)
 
 	Try {
@@ -944,9 +946,9 @@ Function Set-ini_File {										# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 		(
 			[Parameter(
 				Mandatory = $True,
-				HelpMessage = "Directory to apply ini file. '.\' as default dir path",
+				HelpMessage = "Directory to apply ini file.",
 				Position = 0)]
-			[String]$ini_Dir,										# Default
+			[String]$ini_Dir,
 
 			[Parameter(
 				Mandatory = $False,
@@ -986,7 +988,28 @@ Function Set-ini_File {										# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 
 		)
 
+	<# INI FOLDER TYPE:
+		FROM Desktop.ini Documentation: https://hwiegman.home.xs4all.nl/desktopini.html
 
+	FolderType = 	Documents
+	MyDocuments
+	Pictures
+	MyPictures
+	PhotoAlbum
+	Music
+	MyMusic
+	MusicArtist
+	MusicAlbum
+	Videos
+	MyVideos
+	VideoAlbum
+	UseLegacyHTT
+	CommonDocuments
+	Generic
+
+		FROM: How to create desktop.ini in PowerShell?
+		https://stackoverflow.com/questions/42005946/how-to-create-desktop-ini-in-powershell
+	#>
 $iniText = '
 		[.ShellClassInfo]
 		IconResource=D:\Remote\icons\folderBlue.ico,0
@@ -1004,28 +1027,28 @@ Push-Location "$path"					### Push-Location (no Set-Location !!!)
 $items = Get-ChildItem -Recurse | 
 Where-Object {
 ($_.Attributes -match "Directory") -and ($_.Name.EndsWith("es"))} | 
-Select-Object -ExpandProperty FullName                   ### ↑↑  change!!!
+Select-Object -ExpandProperty FullName				   ### ↑↑  change!!!
 
 #For each folder _S ...
 foreach ($item in $items)
 {
-Push-Location "$item"      ### Push-Location instead of Set-Location
+Push-Location "$item"	  ### Push-Location instead of Set-Location
 
 #Init. Delete desktop.ini if exist
 try {
-Remove-Item desktop.ini -Force -erroraction stop
+Remove-Item desktop.ini -Force -errorAction stop
 }
-catch {                    ### Write-Host "error removing $($item)"
+catch {					### Write-Host "error removing $($item)"
 }
 
 #Write desktop.ini
 Write-Host "Go to $($item)"
 $iniText | Out-File desktop.ini -Force
 Set-ItemProperty desktop.ini -Name Attributes -Value “ReadOnly,System,Hidden”
-Pop-Location               ### Pop-Location for corresponding Push-Location
+Pop-Location			   ### Pop-Location for corresponding Push-Location
 attrib.exe +R +S "$item"   ### Follow DESKTOP.INI CUSTOMIZATIONS DO NOT …
 }
-Pop-Location                   ### Pop-Location for corresponding Push-Location
+Pop-Location				   ### Pop-Location for corresponding Push-Location
 }
 
 
@@ -1466,12 +1489,12 @@ $choice = Invoke-MsgBox -Message "Proceed?" -Title "Update Records" -ButtonType 
 		)
 
 	$buttonMap = @{ 
-		'OK'               = @{ buttonList = 'OK'; defaultButtonIndex = 0 }
-		'OKCancel'         = @{ buttonList = 'OK', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+		'OK'			   = @{ buttonList = 'OK'; defaultButtonIndex = 0 }
+		'OKCancel'		 = @{ buttonList = 'OK', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
 		'AbortRetryIgnore' = @{ buttonList = 'Abort', 'Retry', 'Ignore'; defaultButtonIndex = 2; ; cancelButtonIndex = 0 }; 
-		'YesNoCancel'      = @{ buttonList = 'Yes', 'No', 'Cancel'; defaultButtonIndex = 2; cancelButtonIndex = 2 };
-		'YesNo'            = @{ buttonList = 'Yes', 'No'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
-		'RetryCancel'      = @{ buttonList = 'Retry', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+		'YesNoCancel'	  = @{ buttonList = 'Yes', 'No', 'Cancel'; defaultButtonIndex = 2; cancelButtonIndex = 2 };
+		'YesNo'			= @{ buttonList = 'Yes', 'No'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
+		'RetryCancel'	  = @{ buttonList = 'Retry', 'Cancel'; defaultButtonIndex = 0; cancelButtonIndex = 1 }
 		}
 
 	Try
@@ -1491,7 +1514,7 @@ $choice = Invoke-MsgBox -Message "Proceed?" -Title "Update Records" -ButtonType 
 
 			$numButtons = $buttonMap[$Buttons].buttonList.Count
 			$defaultIndex = [math]::Min($numButtons - 1, ($buttonMap[$Buttons].defaultButtonIndex, $DefaultButtonIndex)[$PSBoundParameters.ContainsKey('DefaultButtonIndex')])
-			Add-Type -Assembly System.Windows.Forms        
+			Add-Type -Assembly System.Windows.Forms		
 			# Show the dialog.
 			# Output the chosen button as a stringified [System.Windows.Forms.DialogResult] enum value
 			[System.Windows.Forms.MessageBox]::Show($Message, $Title, $Buttons, $Icon, $defaultIndex * 256).ToString()

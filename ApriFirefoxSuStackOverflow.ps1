@@ -1,1 +1,0 @@
-D:\SyMenu\ProgramFiles\SPSSuite\SyMenuSuite\Mozilla_Firefox_Portable_sps\FirefoxPortable.exe "https://stackoverflow.com/users/4805093/emanuele-tinari?tab=activity"

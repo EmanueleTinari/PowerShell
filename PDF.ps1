@@ -1,11 +1,11 @@
-                                                    #=================================================#
-                                                    #                                                 #
-                                                    #          #
-                                                    #                #
-                                                    #             Ver. 1.0.0  05/04/2021              #
-                                                    #                                                 #
-                                                    #=================================================#
-###############################################################################################################################################################    
+                                    #=================================================#
+                                    #                                                 #
+                                    #                                                 #
+                                    #                                                 #
+                                    #             Ver. 1.0.0  05/04/2021              #
+                                    #                                                 #
+                                    #=================================================#
+##################################################################################################################
 # (ITA) Svuota il terminale e tutte le variabili usate. 
 Clear-Host
 $DirectoryDiLavoro = ""
@@ -35,12 +35,12 @@ $Totale = $Files = 0
 # (ITA) Imposta un array contenente i (il) file pdf nella directory di lavoro.
 $Pdf = Get-ChildItem $DirectoryDiLavoro -Filter *.pdf
 # (ITA) Cicla tutti i file pdf contenuti nell'Array.
-foreach ($CurrentPdf in $Pdf)
+ForEach ($CurrentPdf in $Pdf)
     {
         # (ITA) Nella variabile $filename è contenuto il nome del file in elaborazione comprensivo di estensione.
         $Filename = $CurrentPdf.Name
         # (ITA) .
-        $Pages = (D:\Documents\Downloads\Emule-Incoming\xpdf-tools-win-4.03\bin32\pdfinfo.exe $CurrentPdf.FullName | Select-String -Pattern '(?<=Pages:\s*)\d+').Matches.Value
+        $Pages = (.\PdfInfo.exe $CurrentPdf.FullName | Select-String -Pattern '(?<=Pages:\s*)\d+').Matches.Value
         $Totale += $Pages
         $Files++
         $NomeFileNoExt = $CurrentPdf.BaseName
@@ -51,19 +51,19 @@ foreach ($CurrentPdf in $Pdf)
         $EstraiLingua = ($SecondoElementoNoLineetta |Select-String '(?<=\[)[^]]+(?=\])' -AllMatches).Matches.Value
         $NumCharEstraiLingua = $EstraiLingua.Length
         Write-Host $NumCharEstraiLingua
-        if ($NumCharEstraiLingua = 3)
+        If ($NumCharEstraiLingua = 3)
             {
                 Write-Host $NumCharEstraiLingua
             }
-        if ($NumCharEstraiLingua = 7)
+        If ($NumCharEstraiLingua = 7)
             {
                 Write-Host $NumCharEstraiLingua
             }
-        if ($NumCharEstraiLingua = 11)
+        If ($NumCharEstraiLingua = 11)
             {
                 Write-Host $NumCharEstraiLingua
             }    
-        if ($NumCharEstraiLingua = 15)
+        If ($NumCharEstraiLingua = 15)
             {
                 Write-Host $NumCharEstraiLingua
             }
@@ -77,6 +77,7 @@ foreach ($CurrentPdf in $Pdf)
             'Lingua' = $EstraiLingua
         }
 }
+
 "`nNumero Totale di pagine: {0} in {1} files" -f $Totale, $Files
 Write-Host $ITA
 Write-Host $LAT

@@ -14,7 +14,7 @@ $xml = @"
 			<image placement="appLogoOverride" src="E:\Z\NNLogo.jpg" hint-crop="circle"/>
 		</binding>
 	</visual>
-	<audio src="ms-winsoundevent:Notification.Reminder"/>
+	<audio src="ms-winSoundEvent:Notification.Reminder"/>
 </toast>
 "@
 $XmlDocument = [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime]::New()
