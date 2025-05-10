@@ -1009,6 +1009,10 @@ Function Set-ini_File {										# ATTENZIONE!!! ANCORA DA COMPLETARE !!!
 
 		FROM: How to create desktop.ini in PowerShell?
 		https://stackoverflow.com/questions/42005946/how-to-create-desktop-ini-in-powershell
+
+		x la parte del drag and drop dell'INI file
+		FROM: How to Change Default Drag and Drop Action in Windows
+		https://www.tenforums.com/tutorials/38097-change-drag-drop-default-action-windows.html
 	#>
 $iniText = '
 		[.ShellClassInfo]
